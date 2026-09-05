@@ -18,10 +18,16 @@ public enum ItemFeature
 [CreateAssetMenu(fileName = "ItemData", menuName = "Scriptable Objects/ItemData")]
 public class ItemData : ScriptableObject
 {
-    public string itemName;
-    public float weight;
-    public ItemCategory category;
-    public ItemFeature[] features;
-    public bool canPack;
-    public bool canActivate;
+    [SerializeField] private string itemName;
+    public string ItemName => itemName;
+    [SerializeField] private float weight;
+    public float Weight => weight;
+    [SerializeField] private ItemCategory category;
+    public ItemCategory Category => category;
+    [SerializeField] private ItemFeature[] features;
+    public ItemFeature[] Features => features;
+    [SerializeField] private bool canPack;
+    public bool CanPack => canPack;
+    [SerializeField] private bool canActivate;
+    public bool CanActivate => canActivate;
 }
