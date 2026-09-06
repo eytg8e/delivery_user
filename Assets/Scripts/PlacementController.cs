@@ -96,19 +96,6 @@ public class PlacementController : MonoBehaviour
         }
     }
 
-    public void CancelPlacement(ItemInstance item)
-    {
-        currentItem.VisualChanged -= UpdatePreviewVisual;
-
-        if (preview != null) Destroy(preview);
-
-        preview = null;
-        previewRenderer = null;
-        currentItem = null;
-        isPlacing = false;
-        canPlace = false;
-    }
-
     private void UpdatePreviewPosition()
     {
         preview.transform.SetPositionAndRotation(currentItem.CurrentVisual.transform.position, currentItem.CurrentVisual.transform.rotation);

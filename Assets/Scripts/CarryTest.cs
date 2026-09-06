@@ -14,7 +14,6 @@ public class CarryTest : MonoBehaviour
             if (!testItem.IsCarried)
             {
                 playerCarry.Pickup(testItem);
-                playerCarry.BeginPlacement();
             }
             else placementController.Place();
         }
@@ -34,11 +33,6 @@ public class CarryTest : MonoBehaviour
                 else testItem.Deactivate();
             }
             else Debug.Log("Can't activate the packed item!");
-        }
-
-        if (Keyboard.current.escapeKey.wasPressedThisFrame && placementController.IsPlacing)
-        {
-
         }
     }
 }

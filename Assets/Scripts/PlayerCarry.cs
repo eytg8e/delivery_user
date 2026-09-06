@@ -30,6 +30,8 @@ public class PlayerCarry : MonoBehaviour
         currentItem.transform.SetParent(carryPoint.transform);
         currentItem.transform.localPosition = Vector3.zero;
         currentItem.transform.localRotation = Quaternion.identity;
+
+        placementController.BeginPlacement(currentItem);
     }
 
     public void BeginPlacement()
