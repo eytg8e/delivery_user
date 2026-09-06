@@ -4,7 +4,7 @@ public class ItemInstance : MonoBehaviour
 {
     [SerializeField] private ItemData itemData;
     public ItemData ItemData => itemData;
-    [SerializeField] private ItemState itemState;
+    [SerializeField] private ItemState itemState = new ItemState();
     public ItemState ItemState => itemState;
 
     [SerializeField] private Rigidbody itemRigidbody;

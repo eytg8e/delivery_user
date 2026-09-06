@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class ItemState
 {
-    private bool isPacked;
+   [SerializeField] private bool isPacked;
     public bool IsPacked
     {
         get => isPacked;
         set => isPacked = value;
     }
-    private bool isActive;
+    [SerializeField] private bool isActive;
     public bool IsActive
     {
         get => isActive;
