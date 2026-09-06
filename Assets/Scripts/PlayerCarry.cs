@@ -14,19 +14,19 @@ public class PlayerCarry : MonoBehaviour
     {
         placementController = GetComponent<PlacementController>();
 
-        if(placementController == null) enabled = false;
+        if (placementController == null) enabled = false;
     }
 
 
     // PlayerInteraction에서 받아온 ItemInstance를 가지고 집어올린다
     public void Pickup(ItemInstance item)
     {
-        if(item == null || currentItem != null) return;
+        if (item == null || currentItem != null) return;
 
         item.BeginCarry();
 
         currentItem = item;
-        
+
         currentItem.transform.SetParent(carryPoint.transform);
         currentItem.transform.localPosition = Vector3.zero;
         currentItem.transform.localRotation = Quaternion.identity;
@@ -34,20 +34,19 @@ public class PlayerCarry : MonoBehaviour
 
     public void BeginPlacement()
     {
-        if(currentItem == null || placementController.IsPlacing) return;
+        if (currentItem == null || placementController.IsPlacing) return;
         placementController.BeginPlacement(currentItem);
     }
 
     public void Place(Vector3 position, Quaternion rotation)
     {
-        if(currentItem == null || !placementController.IsPlacing) return;
-        
+        if (currentItem == null || !placementController.IsPlacing) return;
+
         currentItem.transform.SetParent(null, true);
         currentItem.transform.SetPositionAndRotation(position, rotation);
         currentItem.EndCarry();
 
         currentItem = null;
-
     }
 
 }
