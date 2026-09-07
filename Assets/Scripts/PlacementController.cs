@@ -148,11 +148,10 @@ public class PlacementController : MonoBehaviour
 
         GameObject visualSource = currentItem.CurrentVisual;
         preview = Instantiate(visualSource);
+        SetLayer(preview, LayerMask.NameToLayer("PlacementPreview"));
 
         previewRenderer = preview.GetComponentInChildren<Renderer>(true);
         previewCollider = preview.GetComponentInChildren<Collider>(true);
-
-        SetLayer(preview, LayerMask.NameToLayer("PlacementPreview"));
         previewCollider.enabled = false;
 
     }
