@@ -23,6 +23,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 1.5f;
     [SerializeField] private float gravityScale = -9.8f;
     [SerializeField] private Vector3 playerVelocity;
+    [Tooltip("Glide 아이템 없을 때 바람에 밀려나는 정도")]
+    [SerializeField, Range(0f, 1f)] private float normalWindMultiplier = 0.1f;
+    [Tooltip("바람 등에 의해 받은 외력")]
+    [SerializeField] private Vector3 externalMovement = Vector3.zero;
+
+    public bool isInWind = false;
 
     private void OnEnable()
     {
@@ -79,9 +85,10 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityScale * Time.deltaTime;
 
         // 수평, 수직 이동 합치기
-        Vector3 finalMove = (move * moveSpeed) + (playerVelocity.y * Vector3.up);
+        Vector3 finalMove = (move * moveSpeed) + (playerVelocity.y * Vector3.up) + externalMovement;
         characterController.Move(finalMove * Time.deltaTime);
 
+        externalMovement = Vector3.zero;
     }
 
     private void PickupOnOff()
@@ -107,5 +114,20 @@ public class PlayerController : MonoBehaviour
         // if (testItem.IsCarried) playerCarry.BeginPlacement();
         if (playerCarry.CurrentItem == null && playerInteraction.CurrentTarget == null) Debug.Log("There's nothing to on/off");
         playerInteraction.ActivateTarget();
+    }
+
+    public void AddExternalMovement(Vector3 movement)
+    {
+        bool hasActiveGlider = playerCarry.CurrentItem != null && playerCarry.CurrentItem.HasActiveFeature(ItemFeature.Glide);
+        bool isFloating = isInWind && hasActiveGlider;
+
+        // 글라이딩 아이템이 있으면 빠르게 밀린다
+        if (hasActiveGlider) externalMovement += movement;
+
+        //글라이딩 아이템이 없으면 느리게 밀린다
+        else externalMovement += movement * normalWindMultiplier;
+
+        if (isFloating) playerVelocity.y = playerVelocity.y * 0.05f;
+        else playerVelocity.y += gravityScale * Time.deltaTime;
     }
 }

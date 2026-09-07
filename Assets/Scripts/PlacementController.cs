@@ -116,7 +116,8 @@ public class PlacementController : MonoBehaviour
         if (!hasHit)
         {
             canPlace = false;
-            previewRenderer.material = cannotPlaceMaterial;
+            // previewRenderer.material = cannotPlaceMaterial;
+            SetMaterial(preview, cannotPlaceMaterial);
             return;
         }
 
@@ -127,11 +128,13 @@ public class PlacementController : MonoBehaviour
 
         if (canPlace)
         {
-            previewRenderer.material = canPlaceMaterial;
+            SetMaterial(preview, canPlaceMaterial);
+            // previewRenderer.material = canPlaceMaterial;
         }
         else
         {
-            previewRenderer.material = cannotPlaceMaterial;
+            SetMaterial(preview, cannotPlaceMaterial);
+            // previewRenderer.material = cannotPlaceMaterial;
         }
     }
 
@@ -181,7 +184,7 @@ public class PlacementController : MonoBehaviour
 
     private void SetMaterial(GameObject item, Material previewMaterial)
     {
-        item.GetComponent<Renderer>().material = previewMaterial;
+        item.GetComponentInChildren<Renderer>().material = previewMaterial;
 
         foreach (Transform child in item.transform)
         {
