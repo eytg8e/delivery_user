@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50af151b55611614ab1583d9a5a495fa, type: 3}
-  m_Name: TestItemData
+  m_Name: Umbrella
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: TestItem
-  weight: 3
+  itemName: "\uC6B0\uC0B0"
+  weight: 2
   category: 0
-  features: 00000000
+  features: 01000000
   canPack: 1
   canActivate: 1
+  carryCondition: 0

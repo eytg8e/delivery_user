@@ -1,8 +1,10 @@
+using NUnit.Framework;
 using UnityEngine;
 
+[System.Serializable]
 public class ItemState
 {
-   [SerializeField] private bool isPacked;
+    [SerializeField] private bool isPacked;
     public bool IsPacked
     {
         get => isPacked;

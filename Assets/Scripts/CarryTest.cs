@@ -9,7 +9,7 @@ public class CarryTest : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.leftCtrlKey.wasPressedThisFrame || Keyboard.current.rightCtrlKey.wasPressedThisFrame)
+        if (Keyboard.current.uKey.wasPressedThisFrame)
         {
             if (!testItem.IsCarried)
             {
@@ -17,14 +17,14 @@ public class CarryTest : MonoBehaviour
             }
             else placementController.Place();
         }
-        if (Keyboard.current.leftShiftKey.wasPressedThisFrame || Keyboard.current.rightShiftKey.wasPressedThisFrame)
+        if (Keyboard.current.iKey.wasPressedThisFrame)
         {
             // if (testItem.IsCarried) playerCarry.BeginPlacement();
             if (!testItem.ItemState.IsPacked) testItem.Pack();
             else testItem.Unpack();
         }
 
-        if (Keyboard.current.tabKey.wasPressedThisFrame)
+        if (Keyboard.current.oKey.wasPressedThisFrame)
         {
             // if (testItem.IsCarried) playerCarry.BeginPlacement();
             if (!testItem.ItemState.IsPacked)

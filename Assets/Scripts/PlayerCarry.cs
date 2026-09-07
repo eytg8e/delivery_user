@@ -23,7 +23,13 @@ public class PlayerCarry : MonoBehaviour
     {
         if (item == null || currentItem != null) return;
 
-        item.BeginCarry();
+        bool canPickup = item.BeginCarry();
+
+        if (!canPickup)
+        {
+            Debug.Log("Can't pickup Packedonly Item!");
+            return;
+        }
 
         currentItem = item;
 
