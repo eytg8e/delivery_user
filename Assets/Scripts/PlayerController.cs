@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [Header("Player stats")]
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float rotationSpeed = 90.0f;
-    [SerializeField] private float jumpHeight = 1.5f;
+    [SerializeField] private float jumpHeight = 2.0f;
     [SerializeField] private float gravityScale = -9.8f;
     [SerializeField] private Vector3 playerVelocity;
     [Tooltip("Glide 아이템 없을 때 바람에 밀려나는 정도")]
