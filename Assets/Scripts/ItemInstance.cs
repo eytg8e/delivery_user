@@ -3,34 +3,48 @@ using UnityEngine;
 
 public class ItemInstance : MonoBehaviour
 {
+    [Header("Itemdata & ItemState")]
     [SerializeField] private ItemData itemData;
     public ItemData ItemData => itemData;
-    [SerializeField] private ItemState itemState = new ItemState();
+    [SerializeField] private ItemState itemState;
     public ItemState ItemState => itemState;
 
+    [Header("Rigidbody & Collider")]
     [SerializeField] private Rigidbody itemRigidbody;
     public Rigidbody ItemRigidbody => itemRigidbody;
     [SerializeField] private Collider itemCollider;
     public Collider ItemCollider => itemCollider;
 
+    [Header("Mesh & Outline")]
     [SerializeField] private GameObject packedMesh;
     public GameObject PackedMesh => packedMesh;
+    [SerializeField] private GameObject packedOutline;
+    public GameObject PackedOutline => packedOutline;
     [SerializeField] private GameObject openedMesh;
     public GameObject OpenedMesh => openedMesh;
+    [SerializeField] private GameObject openedOutline;
+    public GameObject OpenedOutline => openedOutline;
     // 활성화됐을 때 보여줄 게임오브젝트
     [SerializeField] private GameObject activatedMesh;
     public GameObject ActivatedMesh => activatedMesh;
-
-    //운반 중인지 상태를 확인하는 bool
-    [SerializeField] private bool isCarried;
-    public bool IsCarried => isCarried;
+    [SerializeField] private GameObject activatedOutline;
+    public GameObject ActivatedOutline => activatedOutline;
 
     // 현재 아이템 GameObject를 저장
     [SerializeField] private GameObject currentVisual;
     public GameObject CurrentVisual => currentVisual;
 
+    //운반 중인지 상태를 확인하는 bool
+    [SerializeField] private bool isCarried;
+    public bool IsCarried => isCarried;
+
+    // 외곽선 활성화 여부 저장
+    [SerializeField] private bool isHighlighted;
+    public bool IsHighlighted => isHighlighted;
+
     // 아이템 상태 변화 알림
     public event Action VisualChanged;
+    public event Action ItemDestroyed;
 
 
     // 첫 시작 때 Inspector에서 설정한 상태와 맞추기
@@ -53,6 +67,12 @@ public class ItemInstance : MonoBehaviour
     public void Unpack()
     {
         if (!itemData.CanPack) return;
+        // if (itemData.CanOnlyCarriedWithPacked)
+        // {
+        //     ItemDestroyed?.Invoke();
+        //     Destroy(gameObject);
+        //     return;
+        // }
 
         itemState.IsPacked = false;
         itemState.IsActive = false;
@@ -62,8 +82,16 @@ public class ItemInstance : MonoBehaviour
 
     public void Activate()
     {
-        if (!itemData.CanActivate) return;
-        if (itemState.IsPacked) return;
+        if (!itemData.CanActivate)
+        {
+            Debug.Log("You can't activate this item!");
+            return;
+        }
+        if (itemState.IsPacked)
+        {
+            Debug.Log("You can't activate packed item!");
+            return;
+        }
 
         itemState.IsActive = true;
 
@@ -76,6 +104,13 @@ public class ItemInstance : MonoBehaviour
         if (itemState.IsPacked) return;
 
         itemState.IsActive = false;
+
+        ApplyState();
+    }
+
+    public void SetHighlighted(bool value)
+    {
+        isHighlighted = value;
 
         ApplyState();
     }
@@ -98,18 +133,21 @@ public class ItemInstance : MonoBehaviour
         {
             itemCollider = packedMesh.GetComponent<Collider>();
             currentVisual = packedMesh;
+            packedOutline.SetActive(isHighlighted);
         }
 
         else if (showActivated)
         {
             itemCollider = activatedMesh.GetComponent<Collider>();
             currentVisual = activatedMesh;
+            activatedOutline.SetActive(isHighlighted);
         }
 
         else
         {
             itemCollider = openedMesh.GetComponent<Collider>();
             currentVisual = openedMesh;
+            openedOutline.SetActive(isHighlighted);
         }
 
         itemCollider.enabled = !isCarried;
@@ -119,9 +157,9 @@ public class ItemInstance : MonoBehaviour
     }
 
     #region playerCarry에게 운반 상태를 받았을 때 상태 전환
-    public void BeginCarry()
+    public bool BeginCarry()
     {
-        isCarried = true;
+        if (itemData.CarryCondition == CarryCondition.PackedOnly) return false;
 
         int carryLayer = LayerMask.NameToLayer("CarriedItem");
 
@@ -130,6 +168,8 @@ public class ItemInstance : MonoBehaviour
         itemRigidbody.isKinematic = true;
 
         ApplyState();
+
+        return true;
     }
 
     public void EndCarry()

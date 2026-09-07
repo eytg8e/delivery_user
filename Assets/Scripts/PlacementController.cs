@@ -125,9 +125,14 @@ public class PlacementController : MonoBehaviour
         bool isBlocked = IsBlocked(hit.collider);
         canPlace = !isBlocked;
 
-        if (canPlace) previewRenderer.material = canPlaceMaterial;
-        else previewRenderer.material = cannotPlaceMaterial;
-
+        if (canPlace)
+        {
+            previewRenderer.material = canPlaceMaterial;
+        }
+        else
+        {
+            previewRenderer.material = cannotPlaceMaterial;
+        }
     }
 
     private void UpdatePreviewVisual()

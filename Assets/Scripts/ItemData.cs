@@ -15,6 +15,12 @@ public enum ItemFeature
     Bounce
 }
 
+public enum CarryCondition
+{
+    AnyState,
+    PackedOnly
+}
+
 [CreateAssetMenu(fileName = "ItemData", menuName = "Scriptable Objects/ItemData")]
 public class ItemData : ScriptableObject
 {
@@ -28,6 +34,11 @@ public class ItemData : ScriptableObject
     public ItemFeature[] Features => features;
     [SerializeField] private bool canPack;
     public bool CanPack => canPack;
+
     [SerializeField] private bool canActivate;
     public bool CanActivate => canActivate;
+
+    [SerializeField] private CarryCondition carryCondition;
+    public CarryCondition CarryCondition => carryCondition;
 }
+
