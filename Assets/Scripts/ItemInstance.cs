@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class ItemInstance : MonoBehaviour
@@ -33,6 +34,9 @@ public class ItemInstance : MonoBehaviour
     // 현재 아이템 GameObject를 저장
     [SerializeField] private GameObject currentVisual;
     public GameObject CurrentVisual => currentVisual;
+
+    [Header("Feature")]
+    [SerializeField] private GameObject blowArea;
 
     //운반 중인지 상태를 확인하는 bool
     [SerializeField] private bool isCarried;
@@ -151,6 +155,7 @@ public class ItemInstance : MonoBehaviour
         }
 
         itemCollider.enabled = !isCarried;
+        if (blowArea != null) blowArea.SetActive(showActivated);
 
         if (previousVisual != currentVisual) VisualChanged?.Invoke(); // ?를 붙이면 이벤트를 구독한 것이 있을 때만 작동한다
 
@@ -196,6 +201,15 @@ public class ItemInstance : MonoBehaviour
         {
             SetLayer(child.gameObject, layer);
         }
+    }
+
+    #endregion
+
+    #region 특정 feature가 있는지 확인하는 함수
+    public bool HasActiveFeature(ItemFeature feature)
+    {
+        if (itemData.Features.Contains(ItemFeature.Glide) && itemState.IsActive) return true;
+        return false;
     }
 
     #endregion
