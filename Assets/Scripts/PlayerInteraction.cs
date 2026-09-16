@@ -16,6 +16,7 @@ public class PlayerInteraction : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         ItemInstance foundItem = collider.gameObject.GetComponentInParent<ItemInstance>();
+        if (foundItem.gameObject.layer != LayerMask.NameToLayer("Stackable")) return;
         if (foundItems.Contains(foundItem)) return;
         foundItems.Add(foundItem);
     }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.WSA;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -60,6 +60,11 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
             ActiveOnOff();
+        }
+
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
@@ -127,7 +132,7 @@ public class PlayerController : MonoBehaviour
         //글라이딩 아이템이 없으면 느리게 밀린다
         else externalMovement += movement * normalWindMultiplier;
 
-        if (isFloating) playerVelocity.y = playerVelocity.y * 0.05f;
-        else playerVelocity.y += gravityScale * Time.deltaTime;
+        if (isFloating) playerVelocity.y = 0f;
+        // else playerVelocity.y += gravityScale * Time.deltaTime;
     }
 }
