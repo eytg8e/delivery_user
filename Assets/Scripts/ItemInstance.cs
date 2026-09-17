@@ -164,7 +164,7 @@ public class ItemInstance : MonoBehaviour
     #region playerCarry에게 운반 상태를 받았을 때 상태 전환
     public bool BeginCarry()
     {
-        if (itemData.CarryCondition == CarryCondition.PackedOnly) return false;
+        if (itemData.CarryCondition == CarryCondition.PackedOnly && !itemState.IsPacked) return false;
 
         int carryLayer = LayerMask.NameToLayer("CarriedItem");
 

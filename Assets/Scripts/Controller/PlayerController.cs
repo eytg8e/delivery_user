@@ -30,6 +30,11 @@ public class PlayerController : MonoBehaviour
 
     public bool isInWind = false;
 
+    public float jumpBuffer = 0.12f;
+    public float jumpBufferCounter = 0f;
+    public float coyoteTime = 0.12f;
+    public float coyoteTimeCounter = 0f;
+
     private void OnEnable()
     {
         moveAction.action.Enable();
@@ -70,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (characterController.isGrounded && playerVelocity.y < 0) playerVelocity.y = 0f;
+        if (characterController.isGrounded && playerVelocity.y < 0) playerVelocity.y = -2f;
 
         // 입력 받기
         Vector2 input = moveAction.action.ReadValue<Vector2>();
@@ -80,10 +85,45 @@ public class PlayerController : MonoBehaviour
         if (move != Vector3.zero) transform.forward = move;
 
         // 점프하기
-        if (jumpAction.action.WasPressedThisFrame() && characterController.isGrounded)
+
+        // 점프 버퍼
+        if (jumpAction.action.WasPressedThisFrame())
         {
-            if (playerCarry.CurrentItem == null) playerVelocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravityScale);
-            else Debug.Log("You can't jump while carrying item!");
+            jumpBufferCounter = jumpBuffer;
+        }
+
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        // 코요테 타임
+        if (characterController.isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+
+        }
+
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+        {
+            float carryingJumpHeight = jumpHeight;
+            if (playerCarry.CurrentItem != null)
+            {
+                float mass = playerCarry.CurrentItem.ItemData.Weight / 5f;
+                carryingJumpHeight = jumpHeight - mass;
+                if (carryingJumpHeight < 0f) carryingJumpHeight = 0f;
+            }
+
+            playerVelocity.y = Mathf.Sqrt(carryingJumpHeight * -2.0f * gravityScale);
+
+            // 점프 버퍼, 코요테 타임 초기화
+            jumpBufferCounter = 0f;
+            coyoteTimeCounter = 0f;
         }
 
         // 중력 적용

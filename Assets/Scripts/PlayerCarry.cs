@@ -5,6 +5,7 @@ public class PlayerCarry : MonoBehaviour
 {
     [SerializeField] private Transform carryPoint;
     [SerializeField] private PlacementController placementController;
+    public PlacementController PlacementController => placementController;
 
     private ItemInstance currentItem;
     public ItemInstance CurrentItem => currentItem;

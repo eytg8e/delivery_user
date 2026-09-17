@@ -25,6 +25,11 @@ public class PlacementController : MonoBehaviour
 
     // 최대 배치 가능 높이 위쪽 및 아래쪽 방향
     [SerializeField] private float maxStackHeight = 3f;
+    public float MaxStackHeight
+    {
+        get => maxStackHeight;
+        set => maxStackHeight = value;
+    }
     [SerializeField] private float maxDropDepth = 5f;
 
     // 이미 배치 중인데 다시 배치하려 하는지 확인

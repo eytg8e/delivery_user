@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OMGYouOpenedThis
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: OMG You opened this
-  weight: 2
+  weight: 5
   category: 3
   features: 
   canPack: 1

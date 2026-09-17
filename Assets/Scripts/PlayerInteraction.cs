@@ -16,6 +16,7 @@ public class PlayerInteraction : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         ItemInstance foundItem = collider.gameObject.GetComponentInParent<ItemInstance>();
+        if (foundItem == null) return;
         if (foundItem.gameObject.layer != LayerMask.NameToLayer("Stackable")) return;
         if (foundItems.Contains(foundItem)) return;
         foundItems.Add(foundItem);
@@ -119,6 +120,12 @@ public class PlayerInteraction : MonoBehaviour
         else if (currentTarget != null) interactionTarget = currentTarget;
 
         if (interactionTarget == null) return;
+
+        if (!interactionTarget.ItemData.CanActivate)
+        {
+            Debug.Log("This item can't be activated!");
+            return;
+        }
 
         if (interactionTarget.ItemState.IsActive) interactionTarget.Deactivate();
         else interactionTarget.Activate();
