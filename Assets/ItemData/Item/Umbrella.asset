@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Umbrella
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\uC6B0\uC0B0"
-  weight: 2
+  weight: 5
   category: 0
   features: 01000000
   canPack: 1

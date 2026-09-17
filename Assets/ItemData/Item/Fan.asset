@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fan
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\uC120\uD48D\uAE30"
-  weight: 5
+  weight: 7
   category: 2
   features: 00000000
   canPack: 1

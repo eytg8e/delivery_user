@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DeliverOrder
+public class DeliverOrder : MonoBehaviour
 {
     private DeliveryData deliveryData;
     public DeliveryData DeliveryData => deliveryData;

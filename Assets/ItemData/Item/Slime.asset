@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\uC2AC\uB77C\uC784"
-  weight: 10
+  weight: 7
   category: 0
   features: 02000000
   canPack: 1

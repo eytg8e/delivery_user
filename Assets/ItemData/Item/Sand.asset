@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: "\uBAA8\uB798\uB354\uBBF8"
   weight: 10
   category: 3
-  features: 
+  features: 03000000
   canPack: 1
   canActivate: 0
   carryCondition: 1
