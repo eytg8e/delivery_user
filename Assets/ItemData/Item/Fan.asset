@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: "\uC120\uD48D\uAE30"
   weight: 7
   category: 2
-  features: 00000000
+  features: 0000000004000000
   canPack: 1
   canActivate: 1
   carryCondition: 0
