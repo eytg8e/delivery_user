@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -289,5 +291,19 @@ public class PlayerController : MonoBehaviour
 
         if (isFloating) playerVelocity.y = 0f;
         // else playerVelocity.y += gravityScale * Time.deltaTime;
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        ItemInstance item = hit.collider.gameObject.GetComponent<ItemInstance>();
+        Debug.Log(item);
+        if (item != null && item.ItemData.Features.Contains(ItemFeature.Bounce))
+        {
+            playerVelocity.y = item.gameObject.GetComponentInChildren<BounceFeature>().BounceRatio * -playerVelocity.y;
+
+            float maxBounceSpeed = item.gameObject.GetComponentInChildren<BounceFeature>().MaxBounceSpeed;
+            if (playerVelocity.y < -maxBounceSpeed) playerVelocity.y = -maxBounceSpeed;
+            else if (playerVelocity.y > maxBounceSpeed) playerVelocity.y = maxBounceSpeed;
+        }
     }
 }
