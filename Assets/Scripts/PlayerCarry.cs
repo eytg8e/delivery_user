@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(PlacementController))]
@@ -8,7 +9,11 @@ public class PlayerCarry : MonoBehaviour
     public PlacementController PlacementController => placementController;
 
     private ItemInstance currentItem;
-    public ItemInstance CurrentItem => currentItem;
+    public ItemInstance CurrentItem
+    {
+        get => currentItem;
+        set => currentItem = value;
+    }
 
     // placementcontroller가 준비되었는지 확인한다
     private void Awake()
@@ -36,7 +41,7 @@ public class PlayerCarry : MonoBehaviour
 
         currentItem.transform.SetParent(carryPoint.transform);
         currentItem.transform.localPosition = new Vector3(0f, -0.5f, 0f);
-        // currentItem.transform.localRotation = Quaternion.identity;
+        if (currentItem.ItemData.Features.Contains(ItemFeature.Glide)) currentItem.transform.localRotation = Quaternion.identity;
 
         currentItem.gameObject.layer = LayerMask.NameToLayer("CarriedItem");
 
@@ -60,6 +65,15 @@ public class PlayerCarry : MonoBehaviour
 
         currentItem.gameObject.layer = LayerMask.NameToLayer("Stackable");
 
+        currentItem = null;
+    }
+
+    public void Cancel()
+    {
+        placementController.Cancel();
+        currentItem.transform.SetParent(null, true);
+        currentItem.EndCarry();
+        currentItem.gameObject.layer = LayerMask.NameToLayer("Stackable");
         currentItem = null;
     }
 
