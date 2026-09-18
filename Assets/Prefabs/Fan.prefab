@@ -813,8 +813,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bce79ce43bd7894abf026d056477d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlowFeature
-  windForce: 20
+  windForce: 18
   blowableLayer: 0
+  playerLayer: 0
+  playerPushSpeed: 300
+  playerController: {fileID: 0}
 --- !u!1 &3380178015632817848
 GameObject:
   m_ObjectHideFlags: 0

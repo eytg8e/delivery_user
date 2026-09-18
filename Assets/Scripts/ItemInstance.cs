@@ -166,11 +166,15 @@ public class ItemInstance : MonoBehaviour
     {
         if (itemData.CarryCondition == CarryCondition.PackedOnly && !itemState.IsPacked) return false;
 
+        isCarried = true;
+
         int carryLayer = LayerMask.NameToLayer("CarriedItem");
+
 
         SetLayer(gameObject, carryLayer);
 
         itemRigidbody.isKinematic = true;
+
 
         ApplyState();
 
