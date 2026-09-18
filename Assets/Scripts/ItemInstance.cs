@@ -154,7 +154,7 @@ public class ItemInstance : MonoBehaviour
             openedOutline.SetActive(isHighlighted);
         }
 
-        itemCollider.enabled = !isCarried;
+        // itemCollider.enabled = !isCarried;
         if (blowArea != null) blowArea.SetActive(showActivated);
 
         if (previousVisual != currentVisual) VisualChanged?.Invoke(); // ?를 붙이면 이벤트를 구독한 것이 있을 때만 작동한다
