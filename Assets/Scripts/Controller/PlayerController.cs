@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
         externalMovement = Vector3.zero;
     }
 
-    private void PickupOnOff()
+    public void PickupOnOff()
     {
         if (playerCarry.CurrentItem != null) placementController.Place();
         {

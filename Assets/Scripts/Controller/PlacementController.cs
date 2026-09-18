@@ -81,6 +81,8 @@ public class PlacementController : MonoBehaviour
 
     public void Place()
     {
+        UpdatePreviewPosition();
+
         if (canPlace)
         {
             playerCarry.Place(preview.transform.position, preview.transform.rotation);
@@ -103,6 +105,11 @@ public class PlacementController : MonoBehaviour
 
     private void UpdatePreviewPosition()
     {
+        if (currentItem == null)
+        {
+            Destroy(preview);
+            return;
+        }
         preview.transform.SetPositionAndRotation(currentItem.CurrentVisual.transform.position, currentItem.CurrentVisual.transform.rotation);
 
         Vector3 castCenter = previewRenderer.bounds.center + Vector3.up * maxStackHeight;

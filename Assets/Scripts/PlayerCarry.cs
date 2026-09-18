@@ -35,8 +35,8 @@ public class PlayerCarry : MonoBehaviour
         currentItem = item;
 
         currentItem.transform.SetParent(carryPoint.transform);
-        currentItem.transform.localPosition = Vector3.zero;
-        currentItem.transform.localRotation = Quaternion.identity;
+        currentItem.transform.localPosition = new Vector3(0f, -0.5f, 0f);
+        // currentItem.transform.localRotation = Quaternion.identity;
 
         currentItem.gameObject.layer = LayerMask.NameToLayer("CarriedItem");
 
@@ -56,9 +56,9 @@ public class PlayerCarry : MonoBehaviour
         currentItem.transform.SetParent(null, true);
         currentItem.transform.SetPositionAndRotation(position, rotation);
 
-        currentItem.gameObject.layer = LayerMask.NameToLayer("Stackable");
-
         currentItem.EndCarry();
+
+        currentItem.gameObject.layer = LayerMask.NameToLayer("Stackable");
 
         currentItem = null;
     }
