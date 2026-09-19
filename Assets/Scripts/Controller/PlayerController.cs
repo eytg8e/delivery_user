@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -289,5 +291,26 @@ public class PlayerController : MonoBehaviour
 
         if (isFloating) playerVelocity.y = 0f;
         // else playerVelocity.y += gravityScale * Time.deltaTime;
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        ItemInstance item = hit.collider.gameObject.GetComponentInParent<ItemInstance>();
+        if (item != null && item.ItemData.Features.Contains(ItemFeature.Bounce))
+        {
+            float maxBounceSpeed = item.gameObject.GetComponentInChildren<BounceFeature>().MaxBounceSpeed;
+
+            Vector3 wallNorm = hit.normal;
+            wallNorm = wallNorm.normalized;
+
+            float reflectForce = Vector3.Dot(playerVelocity, wallNorm);
+            if (reflectForce > 0f) return; //이미 빠져나오는 중
+
+            float bounceRatio = item.gameObject.GetComponentInChildren<BounceFeature>().BounceRatio;
+
+            Vector3 reflectedVelocity = playerVelocity - (1f + bounceRatio) * reflectForce * wallNorm;
+
+            playerVelocity = Vector3.ClampMagnitude(reflectedVelocity, maxBounceSpeed);
+        }
     }
 }
