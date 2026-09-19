@@ -8,6 +8,8 @@ public class PlayerCarry : MonoBehaviour
     [SerializeField] private PlacementController placementController;
     public PlacementController PlacementController => placementController;
 
+    [SerializeField] private GameObject sweatParticle;
+
     private ItemInstance currentItem;
     public ItemInstance CurrentItem
     {
@@ -45,6 +47,8 @@ public class PlayerCarry : MonoBehaviour
 
         currentItem.gameObject.layer = LayerMask.NameToLayer("CarriedItem");
 
+        sweatParticle.SetActive(true);
+
         placementController.BeginPlacement(currentItem);
     }
 
@@ -65,6 +69,8 @@ public class PlayerCarry : MonoBehaviour
 
         currentItem.gameObject.layer = LayerMask.NameToLayer("Stackable");
 
+        sweatParticle.SetActive(false);
+
         currentItem = null;
     }
 
@@ -75,6 +81,8 @@ public class PlayerCarry : MonoBehaviour
         currentItem.EndCarry();
         currentItem.gameObject.layer = LayerMask.NameToLayer("Stackable");
         currentItem = null;
+
+        sweatParticle.SetActive(false);
     }
 
 }

@@ -1265,6 +1265,7 @@ MonoBehaviour:
   itemState:
     isPacked: 0
     isActive: 0
+  deliveryData: {fileID: 0}
   itemRigidbody: {fileID: 263972709}
   itemCollider: {fileID: 0}
   packedMesh: {fileID: 1280724094}
@@ -4762,6 +4763,7 @@ MonoBehaviour:
   playerCarry: {fileID: 1149319174}
   playerInteraction: {fileID: 1439725474}
   playerController: {fileID: 1149319181}
+  goalChecker: {fileID: 0}
   stageController: {fileID: 1558078623}
   uiController: {fileID: 29285485}
   currentUITarget: {fileID: 0}
@@ -7178,7 +7180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1367279993
 RectTransform:
   m_ObjectHideFlags: 0

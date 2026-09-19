@@ -27,6 +27,12 @@ public class GameManager : MonoBehaviour
         get => playerController;
         set => playerController = value;
     }
+    [SerializeField] private GoalChecker goalChecker;
+    public GoalChecker GoalChecker
+    {
+        get => goalChecker;
+        set => goalChecker = value;
+    }
     [SerializeField] private StageController stageController;
     public StageController StageController
     {
@@ -76,15 +82,15 @@ public class GameManager : MonoBehaviour
 
     void SetItemStateUI()
     {
-        if (currentUITarget.ItemState.IsPacked)
-        {
-            uiController.ShowPackedItemStateUI();
-        }
+        // if (currentUITarget.ItemState.IsPacked)
+        // {
+        //     uiController.ShowPackedItemStateUI();
+        // }
 
-        else
-        {
-            uiController.ShowUnPackedItemStateUI();
-        }
+        // else
+        // {
+        //     uiController.ShowUnPackedItemStateUI();
+        // }
     }
 
     void SetWeightHUD()
