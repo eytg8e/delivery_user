@@ -142,6 +142,7 @@ MonoBehaviour:
   itemState:
     isPacked: 0
     isActive: 0
+  deliveryData: {fileID: 11400000, guid: b17208e12df4b5246a650ad28a605c9a, type: 2}
   itemRigidbody: {fileID: 5882410574140489111}
   itemCollider: {fileID: 0}
   packedMesh: {fileID: 1714818088585831744}
