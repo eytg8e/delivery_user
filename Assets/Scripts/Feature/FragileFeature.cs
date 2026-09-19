@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public enum IsGrounded
 {
@@ -20,8 +21,8 @@ public class FragileFeature : MonoBehaviour
 
     private float currentDistance = 0f;
 
-    [SerializeField] private float packedThreshold = 5f;
-    [SerializeField] private float openedThreshold = 2f;
+    [SerializeField] private float packedThreshold = 10f;
+    [SerializeField] private float openedThreshold = 6.3f;
 
     [SerializeField] private Vector3 startPosition;
     [SerializeField] private Quaternion startRotation;
@@ -54,44 +55,57 @@ public class FragileFeature : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (CheckIfFragile())
-        {
-            itemCollider = item.CurrentVisual.GetComponent<BoxCollider>();
-            // item이 회전해서 땅 밑을 뚫고 가도 괜찮게 0.05f로 넣는다.
-            Vector3 rayOrigin = itemCollider.transform.TransformPoint(itemCollider.center);
-            rayOrigin.y = Mathf.Max(0.02f, itemCollider.bounds.min.y + 0.02f);
-            if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hitInfo, 40f, rayCastLayerMask, QueryTriggerInteraction.Collide))
-            {
-                if (hitInfo.distance > currentDistance)
-                {
-                    currentDistance = hitInfo.distance;
-                    maxHeight = itemCollider.bounds.min.y + 0.02f;
-                }
+        // if (CheckIfFragile())
+        // {
+        //     itemCollider = item.CurrentVisual.GetComponent<BoxCollider>();
+        //     // item이 회전해서 땅 밑을 뚫고 가도 괜찮게 0.05f로 넣는다.
+        //     Vector3 rayOrigin = itemCollider.transform.TransformPoint(itemCollider.center);
+        //     rayOrigin.y = Mathf.Max(0.02f, itemCollider.bounds.min.y + 0.02f);
+        //     if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hitInfo, 40f, rayCastLayerMask, QueryTriggerInteraction.Collide))
+        //     {
+        //         if (hitInfo.distance > currentDistance)
+        //         {
+        //             currentDistance = hitInfo.distance;
+        //             maxHeight = itemCollider.bounds.min.y + 0.02f;
+        //         }
 
-                if (hitInfo.distance < 0.05f)
-                {
-                    endHeight = itemCollider.bounds.min.y + 0.02f;
-                    fallDown = true;
-                }
+        //         if (hitInfo.distance < 0.05f)
+        //         {
+        //             endHeight = itemCollider.bounds.min.y + 0.02f;
+        //             fallDown = true;
+        //         }
 
-                // Debug.Log($"CurrentDistance: {currentDistance}, maxHeight: {maxHeight}, endHeight = {endHeight}");
-            }
+        //         // Debug.Log($"CurrentDistance: {currentDistance}, maxHeight: {maxHeight}, endHeight = {endHeight}");
+        //     }
 
-            if (fallDown)
-            {
-                if (item.ItemState.IsPacked)
-                {
-                    if (currentDistance >= packedThreshold) BreakDown();
-                }
+        //     if (fallDown)
+        //     {
+        //         if (item.ItemState.IsPacked)
+        //         {
+        //             if (currentDistance >= packedThreshold) BreakDown();
+        //         }
 
-                else
-                {
-                    if (currentDistance >= openedThreshold) BreakDown();
-                }
+        //         else
+        //         {
+        //             if (currentDistance >= openedThreshold) BreakDown();
+        //         }
 
-                ClearState();
-            }
-        }
+        //         ClearState();
+        //     }
+        // }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        ItemInstance otherItem = collision.collider.GetComponentInParent<ItemInstance>();
+        if (item == gameManager.PlayerCarry.CurrentItem || item.gameObject.layer == LayerMask.NameToLayer("Scattering")) return;
+        if (otherItem != null && otherItem.ItemData != null && otherItem.ItemData.Features.Contains(ItemFeature.Bounce)) return;
+
+        Vector3 collisionNormal = collision.GetContact(0).normal;
+        float collisionVelocity = Mathf.Abs(Vector3.Dot(collision.relativeVelocity, collisionNormal));
+
+        if (item.ItemState.IsPacked && collisionVelocity >= packedThreshold) BreakDown();
+        else if (!item.ItemState.IsPacked && collisionVelocity >= openedThreshold) BreakDown();
     }
 
     private bool CheckIfFragile()

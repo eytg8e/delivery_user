@@ -295,15 +295,22 @@ public class PlayerController : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        ItemInstance item = hit.collider.gameObject.GetComponent<ItemInstance>();
-        Debug.Log(item);
+        ItemInstance item = hit.collider.gameObject.GetComponentInParent<ItemInstance>();
         if (item != null && item.ItemData.Features.Contains(ItemFeature.Bounce))
         {
-            playerVelocity.y = item.gameObject.GetComponentInChildren<BounceFeature>().BounceRatio * -playerVelocity.y;
-
             float maxBounceSpeed = item.gameObject.GetComponentInChildren<BounceFeature>().MaxBounceSpeed;
-            if (playerVelocity.y < -maxBounceSpeed) playerVelocity.y = -maxBounceSpeed;
-            else if (playerVelocity.y > maxBounceSpeed) playerVelocity.y = maxBounceSpeed;
+
+            Vector3 wallNorm = hit.normal;
+            wallNorm = wallNorm.normalized;
+
+            float reflectForce = Vector3.Dot(playerVelocity, wallNorm);
+            if (reflectForce > 0f) return; //이미 빠져나오는 중
+
+            float bounceRatio = item.gameObject.GetComponentInChildren<BounceFeature>().BounceRatio;
+
+            Vector3 reflectedVelocity = playerVelocity - (1f + bounceRatio) * reflectForce * wallNorm;
+
+            playerVelocity = Vector3.ClampMagnitude(reflectedVelocity, maxBounceSpeed);
         }
     }
 }

@@ -17,16 +17,22 @@ public class BounceFeature : MonoBehaviour
     {
         if (item.ItemState.IsPacked) return;
 
-        if (collider.gameObject.GetComponent<Rigidbody>() == null) return;
+        Rigidbody rigidbody = collider.rigidbody;
 
-        Rigidbody rigidbody = collider.gameObject.GetComponent<Rigidbody>();
+        ItemInstance otherItem = collider.collider.GetComponentInParent<ItemInstance>();
 
-        if (rigidbody.isKinematic || collider.gameObject.GetComponent<ItemInstance>() == playerCarry.CurrentItem) return;
+        if (rigidbody == null || rigidbody.isKinematic) return;
 
-        Vector3 velocity = rigidbody.linearVelocity;
-        velocity.y = -velocity.y * bounceRatio;
-        if (velocity.y < -maxBounceSpeed) velocity.y = -maxBounceSpeed;
-        else if (velocity.y > maxBounceSpeed) velocity.y = maxBounceSpeed;
-        rigidbody.linearVelocity = velocity;
+        if (otherItem != null && otherItem == playerCarry.CurrentItem) return;
+
+        Vector3 incomingVelocity = collider.relativeVelocity;
+        Vector3 itemNorm = -collider.contacts[0].normal; // 반대일수도?
+
+        float reflectForce = Vector3.Dot(incomingVelocity, itemNorm);
+
+        if (reflectForce > 0f) return;
+
+        Vector3 reflectedVelocity = incomingVelocity - (1f + bounceRatio) * reflectForce * itemNorm;
+        rigidbody.linearVelocity = Vector3.ClampMagnitude(reflectedVelocity, maxBounceSpeed);
     }
 }
