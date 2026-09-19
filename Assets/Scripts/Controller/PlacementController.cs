@@ -103,6 +103,18 @@ public class PlacementController : MonoBehaviour
         }
     }
 
+    public void Cancel()
+    {
+        currentItem.VisualChanged -= UpdatePreviewVisual;
+        Destroy(preview);
+
+        preview = null;
+        previewRenderer = null;
+        currentItem = null;
+        isPlacing = false;
+        canPlace = false;
+    }
+
     private void UpdatePreviewPosition()
     {
         if (currentItem == null)

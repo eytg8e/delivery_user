@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -15,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [Header("Input Actions")]
     public InputActionReference moveAction;
     public InputActionReference jumpAction;
+    public InputActionReference rotateAction;
 
 
     [Header("Player stats")]
@@ -35,16 +38,41 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime = 0.12f;
     public float coyoteTimeCounter = 0f;
 
+    private Vector3 finalMove;
+    [SerializeField] private int itemCollisionTestMask;
+    private float collisionOffset = 0.1f;
+
+    private BoxCollider itemCollisionTest;
+    private Vector3 itemWorldCenter;
+    private Vector3 scale;
+    private Vector3 halfExtents;
+    private Quaternion itemRotation;
+
+    private Vector3 moveDelta;
+    private Vector3 horizontalDelta;
+
+    private float distance;
+    private Vector3 direction;
+
     private void OnEnable()
     {
         moveAction.action.Enable();
         jumpAction.action.Enable();
+        rotateAction.action.performed += RotateItem;
+        rotateAction.action.Enable();
     }
 
     private void OnDisable()
     {
         moveAction.action.Disable();
         jumpAction.action.Disable();
+        rotateAction.action.performed -= RotateItem;
+        rotateAction.action.Disable();
+    }
+
+    private void Start()
+    {
+        itemCollisionTestMask = LayerMask.GetMask("PlacementSurface", "Obstacle");
     }
 
     void Update()
@@ -80,9 +108,13 @@ public class PlayerController : MonoBehaviour
         // 입력 받기
         Vector2 input = moveAction.action.ReadValue<Vector2>();
         Vector3 move = new Vector3(input.x, 0, input.y);
-        move = Vector3.ClampMagnitude(move, 1f);
 
-        if (move != Vector3.zero) transform.forward = move;
+        // 회전하기
+        if (move != Vector3.zero)
+        {
+            move = Vector3.ClampMagnitude(move, 1f);
+            IsRotateBlocked(move);
+        }
 
         // 점프하기
 
@@ -130,10 +162,95 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityScale * Time.deltaTime;
 
         // 수평, 수직 이동 합치기
-        Vector3 finalMove = (move * moveSpeed) + (playerVelocity.y * Vector3.up) + externalMovement;
+        finalMove = (move * moveSpeed) + (playerVelocity.y * Vector3.up) + externalMovement;
+
+        if (move != Vector3.zero && IsStuck())
+        {
+            finalMove.x = 0f;
+            finalMove.z = 0f;
+        }
+
         characterController.Move(finalMove * Time.deltaTime);
 
         externalMovement = Vector3.zero;
+    }
+
+    private bool IsStuck()
+    {
+        if (playerCarry.CurrentItem == null) return false;
+
+        setItemCollisionTest();
+        setItemMoveTest();
+
+        if (direction == Vector3.zero || distance < 0.0001f) return false;
+
+        bool isBlocked = Physics.BoxCast(itemWorldCenter, halfExtents, direction, out RaycastHit hit, itemRotation, distance + collisionOffset, itemCollisionTestMask, QueryTriggerInteraction.Collide);
+
+        return isBlocked;
+    }
+
+    private bool IsRotateBlocked(Vector3 move)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(move);
+        Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        bool rotationBlocked = false;
+
+        if (playerCarry.CurrentItem == null) rotationBlocked = false;
+
+        else
+        {
+            setItemCollisionTest();
+
+            // 현재 위치에서 다음 회전방향까지 가기 위해 필요한 회전값
+            Quaternion rotationDelta = nextRotation * Quaternion.Inverse(transform.rotation);
+
+            Vector3 centerOffset = itemWorldCenter - transform.position;
+            Vector3 nextCenterOffset = rotationDelta * centerOffset;
+
+            Vector3 nextWorldCenter = transform.position + nextCenterOffset;
+
+            Quaternion nextItemRotation = rotationDelta * itemRotation;
+
+            rotationBlocked = Physics.CheckBox(nextWorldCenter, halfExtents, nextItemRotation, itemCollisionTestMask, QueryTriggerInteraction.Collide);
+        }
+
+        if (!rotationBlocked) transform.rotation = nextRotation;
+
+        return rotationBlocked;
+    }
+
+    private void setItemCollisionTest()
+    {
+        if (playerCarry.CurrentItem == null) return;
+
+        itemCollisionTest = playerCarry.CurrentItem.ItemCollider as BoxCollider;
+        itemWorldCenter = itemCollisionTest.transform.TransformPoint(itemCollisionTest.center);
+        scale = itemCollisionTest.transform.lossyScale;
+        halfExtents = Vector3.Scale(itemCollisionTest.size * 0.5f, new Vector3(scale.x, scale.y, scale.z));
+        itemRotation = itemCollisionTest.transform.rotation;
+    }
+
+    private void setItemMoveTest()
+    {
+        moveDelta = finalMove * Time.deltaTime;
+        horizontalDelta = new Vector3(moveDelta.x, 0f, moveDelta.z);
+        distance = horizontalDelta.magnitude;
+        direction = horizontalDelta.normalized;
+    }
+
+    public void RotateItem(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>();
+        if (playerCarry.CurrentItem != null)
+        {
+            playerCarry.CurrentItem.transform.Rotate(input.y * 90f, input.x * 90f, 0f);
+        }
+
+        else if (playerInteraction.CurrentTarget != null)
+        {
+            playerInteraction.CurrentTarget.transform.Rotate(input.y * 90f, input.x * 90f, 0f);
+        }
     }
 
     public void PickupOnOff()
@@ -174,5 +291,26 @@ public class PlayerController : MonoBehaviour
 
         if (isFloating) playerVelocity.y = 0f;
         // else playerVelocity.y += gravityScale * Time.deltaTime;
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        ItemInstance item = hit.collider.gameObject.GetComponentInParent<ItemInstance>();
+        if (item != null && item.ItemData.Features.Contains(ItemFeature.Bounce))
+        {
+            float maxBounceSpeed = item.gameObject.GetComponentInChildren<BounceFeature>().MaxBounceSpeed;
+
+            Vector3 wallNorm = hit.normal;
+            wallNorm = wallNorm.normalized;
+
+            float reflectForce = Vector3.Dot(playerVelocity, wallNorm);
+            if (reflectForce > 0f) return; //이미 빠져나오는 중
+
+            float bounceRatio = item.gameObject.GetComponentInChildren<BounceFeature>().BounceRatio;
+
+            Vector3 reflectedVelocity = playerVelocity - (1f + bounceRatio) * reflectForce * wallNorm;
+
+            playerVelocity = Vector3.ClampMagnitude(reflectedVelocity, maxBounceSpeed);
+        }
     }
 }

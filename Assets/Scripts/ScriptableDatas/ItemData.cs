@@ -13,7 +13,8 @@ public enum ItemFeature
     Blow,
     Glide,
     Bounce,
-    Scatter
+    Scatter,
+    Fragile
 }
 
 public enum CarryCondition

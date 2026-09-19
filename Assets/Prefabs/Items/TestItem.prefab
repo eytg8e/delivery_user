@@ -175,6 +175,7 @@ MonoBehaviour:
   activatedMesh: {fileID: 8349553231933796550}
   activatedOutline: {fileID: 2838696781912037842}
   currentVisual: {fileID: 0}
+  blowArea: {fileID: 0}
   isCarried: 0
   isHighlighted: 0
 --- !u!54 &2551021494039288068
@@ -395,7 +396,6 @@ GameObject:
   - component: {fileID: 2723764693361513067}
   - component: {fileID: 5342607954975231390}
   - component: {fileID: 3565411566919413152}
-  - component: {fileID: 7532557662150619322}
   m_Layer: 7
   m_Name: Tape
   m_TagString: Untagged
@@ -475,27 +475,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7532557662150619322
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3092535285362679882}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5615253623898774927
 GameObject:
   m_ObjectHideFlags: 0
