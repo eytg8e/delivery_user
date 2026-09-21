@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ec4a7d91d65b8340bbace3eaf4ad975, type: 3}
-  m_Name: LadderDelivery
+  m_Name: GlassDelivery
   m_EditorClassIdentifier: Assembly-CSharp::DeliveryData
-  itemData: {fileID: 11400000, guid: 8e03371b9edf9964ba59aa1a6c13c5c5, type: 2}
-  receiverName: Daddy Long Legs
-  destination: Construction Site
-  handlingInfo: []
-  packageSize: {x: 1.2, y: 0.8, z: 4.2}
+  itemData: {fileID: 11400000, guid: 8b6fdf3cd90b67c4d8e6d5598198c2ef, type: 2}
+  receiverName: Tazia
+  destination: Lumia Island
+  handlingInfo:
+  - Gorgeous and Dangerous
+  packageSize: {x: 0.5, y: 0.5, z: 2.5}

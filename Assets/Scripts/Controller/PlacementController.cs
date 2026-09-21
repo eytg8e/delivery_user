@@ -85,7 +85,8 @@ public class PlacementController : MonoBehaviour
 
         if (canPlace)
         {
-            playerCarry.Place(preview.transform.position, preview.transform.rotation);
+            // playerCarry.Place(preview.transform.position, preview.transform.rotation);
+            playerCarry.Place(currentItem.transform.position, currentItem.transform.rotation);
 
             currentItem.VisualChanged -= UpdatePreviewVisual;
             Destroy(preview);

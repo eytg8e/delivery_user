@@ -8,18 +8,48 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/DeliverUser.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Legacy/Stage 1.unity
     guid: a7c92af827719ba4eac501069ec83c58
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Legacy/Stage 2.unity
     guid: c1a4e695946debf4e814c6592257b592
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Legacy/Stage 3.unity
     guid: 84e0207871ae1ca4faff938322ca2afb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Legacy/Stage 4.unity
     guid: b126695d503994c45b103d5aa4ae0448
+  - enabled: 0
+    path: Assets/Scenes/StageV3 - Bonus.unity
+    guid: 037a70efcb275af4080b9ad1bcae21d2
+  - enabled: 1
+    path: Assets/Scenes/StageV3 - 1.unity
+    guid: 414dca0c47fa41c43948191418b9ca03
+  - enabled: 1
+    path: Assets/Scenes/StageV3 - 2.unity
+    guid: 9a8dc7041386fd144b5453f460f617bc
+  - enabled: 1
+    path: Assets/Scenes/StageV3 - 3.unity
+    guid: 3e3de7f3ad49c1244a82b524f7da9fd2
+  - enabled: 1
+    path: Assets/Scenes/StageV3 - 4.unity
+    guid: 99a9bf35c875d7848a60d293548dd86a
+  - enabled: 1
+    path: Assets/Scenes/StageV3 - 5.unity
+    guid: 73c9362c93643cc4a98199a05cc697af
+  - enabled: 1
+    path: Assets/Scenes/StageV3 - 6.unity
+    guid: 84610d99ce95a2849b37402d8b6e0b0c
+  - enabled: 1
+    path: Assets/Scenes/StageV3 - 7.unity
+    guid: 9ffd807b2595d974eb741b6a73d85cd8
+  - enabled: 0
+    path: Assets/Scenes/StageV3 - 8.unity
+    guid: 02f45d6177a31eb4e9eed37f5a0e39e1
+  - enabled: 1
+    path: Assets/Scenes/StageV3 - Finish.unity
+    guid: b7a5fcc783cce814484802ad9ee7ecfb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
