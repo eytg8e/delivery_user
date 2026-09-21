@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Legacy/Stage 4.unity
     guid: b126695d503994c45b103d5aa4ae0448
+  - enabled: 0
+    path: Assets/Scenes/StageV3 - Bonus.unity
+    guid: 037a70efcb275af4080b9ad1bcae21d2
   - enabled: 1
     path: Assets/Scenes/StageV3 - 1.unity
     guid: 414dca0c47fa41c43948191418b9ca03
@@ -41,9 +44,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StageV3 - 7.unity
     guid: 9ffd807b2595d974eb741b6a73d85cd8
-  - enabled: 1
-    path: Assets/Scenes/StageV3 - Bonus.unity
-    guid: 037a70efcb275af4080b9ad1bcae21d2
+  - enabled: 0
+    path: Assets/Scenes/StageV3 - 8.unity
+    guid: 02f45d6177a31eb4e9eed37f5a0e39e1
   - enabled: 1
     path: Assets/Scenes/StageV3 - Finish.unity
     guid: b7a5fcc783cce814484802ad9ee7ecfb

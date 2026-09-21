@@ -164,6 +164,9 @@ public class PlayerController : MonoBehaviour
         // 수평, 수직 이동 합치기
         finalMove = (move * moveSpeed) + (playerVelocity.y * Vector3.up) + externalMovement;
 
+        // isometric 뷰에 맞춰서 회전시키기
+        finalMove = Quaternion.Euler(0f, -45f, 0f) * finalMove;
+
         if (move != Vector3.zero && IsStuck())
         {
             finalMove.x = 0f;

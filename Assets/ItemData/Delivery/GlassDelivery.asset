@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ec4a7d91d65b8340bbace3eaf4ad975, type: 3}
-  m_Name: FanDelivery
+  m_Name: GlassDelivery
   m_EditorClassIdentifier: Assembly-CSharp::DeliveryData
-  itemData: {fileID: 11400000, guid: f5ebd6177c39795439ea6c61fcaf0e98, type: 2}
-  receiverName: Baguette
-  destination: Paris, France
+  itemData: {fileID: 11400000, guid: 8b6fdf3cd90b67c4d8e6d5598198c2ef, type: 2}
+  receiverName: Tazia
+  destination: Lumia Island
   handlingInfo:
-  - Can make winds
-  - Do not drop from a high place
-  - 'Firmly packed with airbags '
-  packageSize: {x: 1.4, y: 0.8, z: 1.2}
+  - Gorgeous and Dangerous
+  packageSize: {x: 0.5, y: 0.5, z: 2.5}
