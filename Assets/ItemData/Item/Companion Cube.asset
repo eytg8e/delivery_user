@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Companion Cube
   weight: 5
   category: 3
-  features: 04000000
+  features: 
   canPack: 1
   canActivate: 1
   carryCondition: 0

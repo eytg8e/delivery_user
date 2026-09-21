@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
@@ -11,6 +11,10 @@ public class PlayerInteraction : MonoBehaviour
 
     [SerializeField] private ItemInstance currentTarget;
     public ItemInstance CurrentTarget => currentTarget;
+
+    public event Action CurrentTargetChanged;
+
+    public event Action ItemChanged;
 
 
     private void OnTriggerEnter(Collider collider)
@@ -39,6 +43,8 @@ public class PlayerInteraction : MonoBehaviour
             {
                 if (currentTarget != null) ClearInteractionTarget();
                 if (newTarget != null) SetInteractionTarget(newTarget);
+
+                CurrentTargetChanged?.Invoke();
             }
         }
     }
@@ -88,6 +94,8 @@ public class PlayerInteraction : MonoBehaviour
 
         // 줍기에 성공했으면
         if (playerCarry.CurrentItem != null) ClearInteractionTarget();
+
+        ItemChanged?.Invoke();
     }
 
     public void PackTarget()
@@ -100,6 +108,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if (!interactionTarget.ItemState.IsPacked) interactionTarget.Pack();
         else interactionTarget.Unpack();
+
+        ItemChanged?.Invoke();
     }
 
     // public void UnpackTarget()
@@ -129,6 +139,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if (interactionTarget.ItemState.IsActive) interactionTarget.Deactivate();
         else interactionTarget.Activate();
+
+        ItemChanged?.Invoke();
     }
 
     // public void DeactivateTarget()

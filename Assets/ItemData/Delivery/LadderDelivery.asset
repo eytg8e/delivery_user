@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LadderDelivery
   m_EditorClassIdentifier: Assembly-CSharp::DeliveryData
   itemData: {fileID: 11400000, guid: 8e03371b9edf9964ba59aa1a6c13c5c5, type: 2}
-  receiverName: 
-  destination: 
+  receiverName: Daddy Long Legs
+  destination: Construction Site
   handlingInfo: []
   packageSize: {x: 1.2, y: 0.8, z: 4.2}
