@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec4a7d91d65b8340bbace3eaf4ad975, type: 3}
+  m_Name: FanDelivery
+  m_EditorClassIdentifier: Assembly-CSharp::DeliveryData
+  itemData: {fileID: 11400000, guid: f5ebd6177c39795439ea6c61fcaf0e98, type: 2}
+  receiverName: Chell
+  destination: Aperture Science, Inc.
+  handlingInfo:
+  - Can make winds
+  - Do not drop from a high place
+  - 'Firmly packed with airbags '
+  packageSize: {x: 1.4, y: 0.8, z: 1.2}

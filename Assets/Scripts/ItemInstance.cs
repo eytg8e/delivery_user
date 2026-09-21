@@ -9,6 +9,8 @@ public class ItemInstance : MonoBehaviour
     public ItemData ItemData => itemData;
     [SerializeField] private ItemState itemState;
     public ItemState ItemState => itemState;
+    [SerializeField] private DeliveryData deliveryData;
+    public DeliveryData DeliveryData => deliveryData;
 
     [Header("Rigidbody & Collider")]
     [SerializeField] private Rigidbody itemRigidbody;
